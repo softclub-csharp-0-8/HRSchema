@@ -9,5 +9,6 @@ public class ServiceProfile:Profile
     public ServiceProfile()
     {
         CreateMap<Employee, GetEmployeeDto>(); 
+        CreateMap<GetEmployeeDto, Employee>();  
     }
 }
