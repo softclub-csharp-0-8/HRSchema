@@ -14,7 +14,7 @@ public class PagedResponse<T>:Response<T>
         TotalRecords = totalRecords;
         PageNumber = pageNumber;
         PageSize = pageSize;
-        TotalRecords = (int)Math.Ceiling(totalRecords / (double)pageSize); 
+        TotalPages = (int)Math.Ceiling(totalRecords / (double)pageSize);  
     }
 
     public PagedResponse(HttpStatusCode statusCode, List<string> errors) : base(statusCode, errors)
