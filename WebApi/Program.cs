@@ -15,7 +15,10 @@ builder.Services.AddDbContext<DataContext>(conf => conf.UseNpgsql(connection));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
-builder.Services.AddAutoMapper(typeof(ServiceProfile)); 
+builder.Services.AddAutoMapper(typeof(ServiceProfile));
+builder.Services.AddScoped<IJobService, JobService>();
+builder.Services.AddScoped<IDepartmentService, DepartmentService>();
+builder.Services.AddScoped<IJobHistoryService, JobHistoryService>();
 
 var app = builder.Build();
 
