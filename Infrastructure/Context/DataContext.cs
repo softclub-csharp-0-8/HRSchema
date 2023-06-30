@@ -18,7 +18,7 @@ public class DataContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<JobHistory>().HasKey(jh => new { jh.EmployeeId, jh.JobId });
+        modelBuilder.Entity<JobHistory>().HasKey(jh => new { jh.DepartmentId, jh.JobId });
         base.OnModelCreating(modelBuilder);
     }
 }
