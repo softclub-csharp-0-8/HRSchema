@@ -1,14 +1,16 @@
 using AutoMapper;
-using Domain.Dtos;
+using Domain.Dtos.EmployeeDto;
 using Domain.Entities;
 
 namespace Infrastructure.AutoMapperProfiles;
 
-public class ServiceProfile:Profile
+public class ServiceProfile : Profile
 {
     public ServiceProfile()
     {
-        CreateMap<Employee, GetEmployeeDto>(); 
-        CreateMap<GetEmployeeDto, Employee>();  
+        CreateMap<Employee, GetEmployeeDto>().ReverseMap();
+        CreateMap<GetEmployeeDto, Employee>().ReverseMap();
+        CreateMap<Employee, AddEmployeeDto>().ReverseMap();
+        
     }
 }

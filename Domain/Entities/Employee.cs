@@ -16,9 +16,9 @@ public class Employee
     public string PhoneNumber  { get; set; }
     public decimal Salary { get; set; } 
     public DateTime HireDate { get; set; } 
-    public int DeparmentId { get; set; }
-    public Department Department { get; set; } 
+    public int DepartmentId { get; set; }
     public int JobId { get; set; }
     public Job Job { get; set; }
+    public Department Department { get; set; } 
     public List<JobHistory> JobHistories { get; set; }
 }
