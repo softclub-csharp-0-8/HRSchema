@@ -10,13 +10,13 @@ namespace Infrastructure.Services;
 
 public class JobHistoryService : IJobHistoryService
 {
-    private readonly DataContext context;
-    private readonly IMapper mapper;
+    private readonly DataContext _context;
+    private readonly IMapper _mapper;
 
-    public JobHistoryService(DataContext _context, IMapper _mapper)
+    public JobHistoryService(DataContext context, IMapper mapper)
     {
-        context = _context;
-        mapper = _mapper;
+        _context = context;
+        _mapper = mapper;
     }
 
     public async Task<Response<AddJobHistoryDto>> AddJobHistory(AddJobHistoryDto model)
@@ -31,13 +31,14 @@ public class JobHistoryService : IJobHistoryService
                 StartDate = model.StartDate,
                 EndDate = model.EndDate,
             };
-            var result = await context.JobHistories.AddAsync(jobHistory);
-            await context.SaveChangesAsync();
+            var result = await _context.JobHistories.AddAsync(jobHistory);
+            await _context.SaveChangesAsync();
             return new Response<AddJobHistoryDto>(model);
         }
         catch (System.Exception ex)
         {
-            return new Response<AddJobHistoryDto>(HttpStatusCode.InternalServerError, new List<string>() { ex.Message });
+            return new Response<AddJobHistoryDto>(HttpStatusCode.InternalServerError,
+                new List<string>() { ex.Message });
         }
     }
 
@@ -45,9 +46,9 @@ public class JobHistoryService : IJobHistoryService
     {
         try
         {
-            var find = await context.JobHistories.FindAsync(employeeId);
-            context.JobHistories.Remove(find);
-            await context.SaveChangesAsync();
+            var find = await _context.JobHistories.FindAsync(employeeId);
+            _context.JobHistories.Remove(find);
+            await _context.SaveChangesAsync();
             return new Response<string>("Success");
         }
         catch (System.Exception ex)
@@ -60,7 +61,7 @@ public class JobHistoryService : IJobHistoryService
     {
         try
         {
-            var result = context.JobHistories.Select(x => new GetJobHistoryDto()
+            var result = await _context.JobHistories.Select(x => new GetJobHistoryDto()
             {
                 EmployeeId = x.EmployeeId,
                 JobId = x.JobId,
@@ -70,12 +71,13 @@ public class JobHistoryService : IJobHistoryService
                 EmployeeName = x.Employee.FirstName + " " + x.Employee.LastName,
                 StartDate = x.StartDate,
                 EndDate = x.EndDate,
-            }).ToList();
+            }).ToListAsync();
             return new Response<List<GetJobHistoryDto>>(result);
         }
         catch (Exception ex)
         {
-            return new Response<List<GetJobHistoryDto>>(HttpStatusCode.InternalServerError, new List<string>() { ex.Message });
+            return new Response<List<GetJobHistoryDto>>(HttpStatusCode.InternalServerError,
+                new List<string>() { ex.Message });
         }
     }
 
@@ -83,7 +85,7 @@ public class JobHistoryService : IJobHistoryService
     {
         try
         {
-            var find = await context.JobHistories.FindAsync(id);
+            var find = await _context.JobHistories.FindAsync(id);
             var result = new GetJobHistoryDto()
             {
                 EmployeeId = find.EmployeeId,
@@ -99,7 +101,8 @@ public class JobHistoryService : IJobHistoryService
         }
         catch (Exception ex)
         {
-            return new Response<GetJobHistoryDto>(HttpStatusCode.InternalServerError, new List<string>() { ex.Message });
+            return new Response<GetJobHistoryDto>(HttpStatusCode.InternalServerError,
+                new List<string>() { ex.Message });
         }
     }
 
@@ -107,16 +110,17 @@ public class JobHistoryService : IJobHistoryService
     {
         try
         {
-            var find = await context.JobHistories.FindAsync(model.EmployeeId);
-            mapper.Map(model, find);
-            context.Entry(find).State = EntityState.Modified;
-            await context.SaveChangesAsync();
-            var response = mapper.Map<AddJobHistoryDto>(find);
+            var find = await _context.JobHistories.FindAsync(model.EmployeeId);
+            _mapper.Map(model, find);
+            _context.Entry(find).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            var response = _mapper.Map<AddJobHistoryDto>(find);
             return new Response<AddJobHistoryDto>(response);
         }
         catch (Exception ex)
         {
-            return new Response<AddJobHistoryDto>(HttpStatusCode.InternalServerError, new List<string>() { ex.Message });
+            return new Response<AddJobHistoryDto>(HttpStatusCode.InternalServerError,
+                new List<string>() { ex.Message });
         }
     }
 }

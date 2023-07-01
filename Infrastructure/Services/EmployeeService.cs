@@ -12,7 +12,6 @@ public class EmployeeService : IEmployeeService
 {
     private readonly DataContext _context;
     private readonly IMapper _mapper;
-    private bool e;
 
     public EmployeeService(DataContext context, IMapper mapper)
     {
@@ -24,7 +23,7 @@ public class EmployeeService : IEmployeeService
     {
         try
         {
-            var result = _context.Employees.Select(x => new GetEmployeeDto()
+            var result = await _context.Employees.Select(x => new GetEmployeeDto()
             {
                 Id = x.Id,
                 FirstName = x.FirstName,
@@ -37,19 +36,22 @@ public class EmployeeService : IEmployeeService
                 JobId = x.JobId,
                 JobName = x.Job.Title,
                 HireDate = x.HireDate,
-            }).ToList();
+            }).ToListAsync();
             return new Response<List<GetEmployeeDto>>(result);
         }
         catch (Exception ex)
         {
-            return new Response<List<GetEmployeeDto>>(HttpStatusCode.InternalServerError, new List<string>() { ex.Message });
+            return new Response<List<GetEmployeeDto>>(HttpStatusCode.InternalServerError,
+                new List<string>() { ex.Message });
         }
     }
+
     public async Task<Response<GetEmployeeDto>> GetEmployeeById(int id)
     {
         try
         {
-            var find = await _context.Employees.Include(e => e.Department).Include(e => e.Job).SingleOrDefaultAsync(x => x.Id == id);
+            var find = await _context.Employees.Include(e => e.Department).Include(e => e.Job)
+                .SingleOrDefaultAsync(x => x.Id == id);
             var result = new GetEmployeeDto()
             {
                 Id = find.Id,
@@ -70,8 +72,8 @@ public class EmployeeService : IEmployeeService
         {
             return new Response<GetEmployeeDto>(HttpStatusCode.InternalServerError, new List<string>() { ex.Message });
         }
-
     }
+
     public async Task<Response<AddEmployeeDto>> AddEmployee(AddEmployeeDto model)
     {
         try
@@ -103,7 +105,7 @@ public class EmployeeService : IEmployeeService
     {
         try
         {
-            var find = _context.Employees.Find(id);
+            var find = await _context.Employees.FindAsync(id);
             _context.Employees.Remove(find);
             await _context.SaveChangesAsync();
             return new Response<string>("Success");
@@ -113,7 +115,6 @@ public class EmployeeService : IEmployeeService
             return new Response<string>(HttpStatusCode.InternalServerError, new List<string>() { ex.Message });
         }
     }
-
 
 
     public async Task<Response<AddEmployeeDto>> UpdateEmployee(AddEmployeeDto model)

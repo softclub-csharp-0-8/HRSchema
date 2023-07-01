@@ -11,13 +11,13 @@ namespace Infrastructure.Services;
 
 public class JobService : IJobService
 {
-    private readonly DataContext context;
-    private readonly IMapper mapper;
+    private readonly DataContext _context;
+    private readonly IMapper _mapper;
 
     public JobService(DataContext context, IMapper mapper)
     {
-        this.context = context;
-        this.mapper = mapper;
+        _context = context;
+        _mapper = mapper;
     }
 
     public async Task<Response<AddJobDto>> AddJob(AddJobDto model)
@@ -31,8 +31,8 @@ public class JobService : IJobService
                 MinSalary = model.MinSalary,
                 Title = model.Title
             };
-            var result = await context.Jobs.AddAsync(job);
-            await context.SaveChangesAsync();
+            var result = await _context.Jobs.AddAsync(job);
+            await _context.SaveChangesAsync();
             return new Response<AddJobDto>(model);
         }
         catch (System.Exception ex)
@@ -45,9 +45,9 @@ public class JobService : IJobService
     {
         try
         {
-            var find = await context.Jobs.FindAsync(id);
-            context.Jobs.Remove(find);
-            await context.SaveChangesAsync();
+            var find = await _context.Jobs.FindAsync(id);
+            _context.Jobs.Remove(find);
+            await _context.SaveChangesAsync();
             return new Response<string>("Success");
         }
         catch (System.Exception ex)
@@ -60,7 +60,7 @@ public class JobService : IJobService
     {
         try
         {
-            var result = context.Jobs.Select(x => new GetJobDto()
+            var result = _context.Jobs.Select(x => new GetJobDto()
             {
                 Id = x.Id,
                 MaxSalary = x.MaxSalary,
@@ -79,7 +79,7 @@ public class JobService : IJobService
     {
         try
         {
-            var find = await context.Jobs.FindAsync(id);
+            var find = await _context.Jobs.FindAsync(id);
             var result = new GetJobDto()
             {
                 Id = find.Id,
@@ -99,11 +99,11 @@ public class JobService : IJobService
     {
         try
         {
-            var find = await context.Jobs.FindAsync(model.Id);
-            mapper.Map(model, find);
-            context.Entry(find).State = EntityState.Modified;
-            await context.SaveChangesAsync();
-            var response = mapper.Map<AddJobDto>(find);
+            var find = await _context.Jobs.FindAsync(model.Id);
+            _mapper.Map(model, find);
+            _context.Entry(find).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            var response = _mapper.Map<AddJobDto>(find);
             return new Response<AddJobDto>(response);
         }
         catch (Exception ex)
