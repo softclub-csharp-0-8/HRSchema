@@ -27,7 +27,7 @@ public class DepartmentService : IDepartmentService
             var department = new Department()
             {
                 Id = model.Id,
-                DeparmentName = model.DeparmentName
+                DeparmentName = model.DepartmentName
             };
             var result = await _context.Departments.AddAsync(department);
             await _context.SaveChangesAsync();
@@ -62,7 +62,7 @@ public class DepartmentService : IDepartmentService
             var result = await _context.Departments.Select(x => new GetDepartmentDto()
             {
                 Id = x.Id,
-                DeparmentName = x.DeparmentName
+                DepartmentName = x.DeparmentName
             }).ToListAsync();
             return new Response<List<GetDepartmentDto>>(result);
         }
@@ -81,7 +81,7 @@ public class DepartmentService : IDepartmentService
             var result = new GetDepartmentDto()
             {
                 Id = find.Id,
-                DeparmentName = find.DeparmentName
+                DepartmentName = find.DeparmentName
             };
             return new Response<GetDepartmentDto>(result);
         }

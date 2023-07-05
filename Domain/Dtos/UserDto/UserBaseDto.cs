@@ -1,0 +1,12 @@
+using Microsoft.AspNetCore.Identity;
+
+namespace Domain.Dtos.UserDto;
+
+public class UserBaseDto 
+{
+    public string Id { get; set; }  
+    public string UserName { get; set; }  
+    public string PhoneNumber { get; set; }  
+    public string Email { get; set; }  
+}
+

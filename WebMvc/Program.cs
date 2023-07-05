@@ -1,7 +1,46 @@
+using System.Text;
+using Infrastructure.AutoMapperProfiles;
+using Infrastructure.Context;
+using Infrastructure.Services;
+using Infrastructure.Services.Account;
+using Infrastructure.Services.Role;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+builder.Services.AddScoped<IJobService, JobService>();
+builder.Services.AddScoped<IDepartmentService, DepartmentService>();
+builder.Services.AddScoped<IJobHistoryService, JobHistoryService>();
+builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<IRoleService, RoleService>(); 
+
+//jwt config
+builder.Services.AddIdentity<IdentityUser, IdentityRole>(config =>
+    {
+        config.Password.RequiredLength = 4;
+        config.Password.RequireDigit = false; // must have at least one digit
+        config.Password.RequireNonAlphanumeric = false; // must have at least one non-alphanumeric character
+        config.Password.RequireUppercase = false; // must have at least one uppercase character
+        config.Password.RequireLowercase = false;  // must have at least one lowercase character
+    })
+    //for registering usermanager and signinmanger
+    .AddEntityFrameworkStores<DataContext>()
+    .AddDefaultTokenProviders();
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,option =>
+    {
+        option.LoginPath = "/account/login";
+        option.AccessDeniedPath = "/account/No";
+        option.Cookie.Name = "AuthCookie";
+
+    });
 
 var app = builder.Build();
 
@@ -18,10 +57,17 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication(); 
 app.UseAuthorization();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+app.UseEndpoints(endpoints => 
+{
+    endpoints.MapControllerRoute(
+        name: "Admin",
+        pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+    endpoints.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=Home}/{action=Index}/{id?}");
+});
 
 app.Run();
