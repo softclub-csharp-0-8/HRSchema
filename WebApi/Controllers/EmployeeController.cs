@@ -12,6 +12,7 @@ public class EmployeeController : ControllerBase
     public EmployeeController(IEmployeeService employeeService)
     {
         _employeeService = employeeService;
+
     }
     [HttpGet("Get")]
     public async Task<IActionResult> GetEmployee()
@@ -32,7 +33,7 @@ public class EmployeeController : ControllerBase
         return StatusCode((int)result.StatusCode, result);
     }
     [HttpPost("Add")]
-    public async Task<IActionResult> AddEmplooyee(AddEmployeeDto model)
+    public async Task<IActionResult> AddEmplooyee([FromForm]AddEmployeeDto model)
     {
         var result = await _employeeService.AddEmployee(model);
         return StatusCode((int)result.StatusCode, result);

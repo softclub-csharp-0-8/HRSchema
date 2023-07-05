@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Domain.Dtos.EmployeeDto;
 
 namespace Domain.Entities;
 
@@ -19,6 +20,8 @@ public class Employee
     public int DepartmentId { get; set; }
     public int JobId { get; set; }
     public Job Job { get; set; }
+    public string? Image { get; set; }
     public Department Department { get; set; } 
     public List<JobHistory> JobHistories { get; set; }
+   // public Status Status { get; set; }
 }
