@@ -1,9 +1,13 @@
 using AutoMapper;
+using Domain.Dtos.AuthenticationAuthorizationDto;
+using Domain.Dtos.Constant;
 using Domain.Dtos.DepartmentDto;
 using Domain.Dtos.EmployeeDto;
 using Domain.Dtos.JobDto;
 using Domain.Dtos.JobHistoryDto;
+using Domain.Dtos.UserDto;
 using Domain.Entities;
+using Microsoft.AspNetCore.Identity;
 
 namespace Infrastructure.AutoMapperProfiles;
 
@@ -17,5 +21,8 @@ public class ServiceProfile : Profile
         CreateMap<Job, AddJobDto>().ReverseMap();
         CreateMap<Department, AddDepartmentDto>().ReverseMap();
         CreateMap<JobHistory, AddJobHistoryDto>().ReverseMap();
+        CreateMap<IdentityRole, RoleDto>();
+        CreateMap<IdentityUser, GetUserDto>().ReverseMap();
+        CreateMap<IdentityUser, UserBaseDto>();
     }
 }

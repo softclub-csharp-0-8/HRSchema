@@ -26,7 +26,7 @@ public class JobHistoryService : IJobHistoryService
             var jobHistory = new JobHistory()
             {
                 EmployeeId = model.EmployeeId,
-                DepartmentId = model.DeparmentId,
+                DepartmentId = model.DepartmentId,
                 JobId = model.JobId,
                 StartDate = model.StartDate,
                 EndDate = model.EndDate,
@@ -65,9 +65,9 @@ public class JobHistoryService : IJobHistoryService
             {
                 EmployeeId = x.EmployeeId,
                 JobId = x.JobId,
-                DeparmentId = x.DepartmentId,
+                DepartmentId = x.DepartmentId,
                 JobName = x.Job.Title,
-                DeparmentName = x.Department.DeparmentName,
+                DepartmentName = x.Department.DeparmentName,
                 EmployeeName = x.Employee.FirstName + " " + x.Employee.LastName,
                 StartDate = x.StartDate,
                 EndDate = x.EndDate,
@@ -90,9 +90,9 @@ public class JobHistoryService : IJobHistoryService
             {
                 EmployeeId = find.EmployeeId,
                 JobId = find.JobId,
-                DeparmentId = find.DepartmentId,
+                DepartmentId = find.DepartmentId,
                 JobName = find.Job.Title,
-                DeparmentName = find.Department.DeparmentName,
+                DepartmentName = find.Department.DeparmentName,
                 EmployeeName = find.Employee.FirstName + " " + find.Employee.LastName,
                 StartDate = find.StartDate,
                 EndDate = find.EndDate,
