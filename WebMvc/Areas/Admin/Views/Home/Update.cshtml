@@ -1,0 +1,14 @@
+@model AddEmployeeDto
+<form method="post" class="row g-3 needs-validation" novalidate>
+  <div class="col-md-4">
+     <input asp-for="Id" type="number" hidden="hidden" name="" id="">
+     <label for="validationCustom01" class="form-label">First name</label>
+     <input asp-for="FirstName" type="text" class="form-control" id="validationCustom01"  required>
+     <div class="valid-feedback">
+      Looks good!
+    </div>
+  </div>
+  <div class="col-12">
+    <button style="background-color: darkgreen; text-align: center; margin-left: 45%; width: 15%;" class="btn btn-primary" type="submit">Submit form</button>
+  </div>
+</form>

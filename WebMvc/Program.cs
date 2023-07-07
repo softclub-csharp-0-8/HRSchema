@@ -7,9 +7,13 @@ using Infrastructure.Services.Role;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var connection = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<DataContext>(conf => conf.UseNpgsql(connection));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -18,8 +22,9 @@ builder.Services.AddScoped<IJobService, JobService>();
 builder.Services.AddScoped<IDepartmentService, DepartmentService>();
 builder.Services.AddScoped<IJobHistoryService, JobHistoryService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
-builder.Services.AddScoped<IRoleService, RoleService>(); 
+builder.Services.AddScoped<IRoleService, RoleService>();
 
+builder.Services.AddAutoMapper(typeof(ServiceProfile));
 //jwt config
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(config =>
     {
@@ -34,7 +39,7 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(config =>
     .AddDefaultTokenProviders();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,option =>
+    .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, option =>
     {
         option.LoginPath = "/account/login";
         option.AccessDeniedPath = "/account/No";
@@ -57,10 +62,10 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthentication(); 
+app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseEndpoints(endpoints => 
+app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllerRoute(
         name: "Admin",
