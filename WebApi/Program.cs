@@ -33,6 +33,7 @@ app.UseHttpsRedirection();
 //file add file add
 
 app.UseStaticFiles();
+app.UseStaticFiles();
 
 
 app.UseAuthorization();
