@@ -26,8 +26,7 @@ public class EmployeeService : IEmployeeService
             var result = await _context.Employees.Select(x => new GetEmployeeDto()
             {
                 Id = x.Id,
-                FirstName = x.FirstName,
-                LastName = x.LastName,
+                FullName = x.FirstName + " " + x.LastName,
                 Email = x.Email,
                 PhoneNumber = x.PhoneNumber,
                 Salary = x.Salary,
@@ -36,6 +35,8 @@ public class EmployeeService : IEmployeeService
                 JobId = x.JobId,
                 JobName = x.Job.Title,
                 HireDate = x.HireDate,
+                ManagerId=x.ManagerId,
+                // ManagerName=x.Man
             }).ToListAsync();
             return new Response<List<GetEmployeeDto>>(result);
         }
@@ -55,8 +56,7 @@ public class EmployeeService : IEmployeeService
             var result = new GetEmployeeDto()
             {
                 Id = find.Id,
-                FirstName = find.FirstName,
-                LastName = find.LastName,
+                FullName = find.FirstName + " " + find.LastName,
                 Email = find.Email,
                 PhoneNumber = find.PhoneNumber,
                 Salary = find.Salary,
