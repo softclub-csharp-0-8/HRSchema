@@ -4,5 +4,5 @@ public class GetJobHistoryDto : JobHistoryBaseDto
 {
     public string JobName { get; set; }
     public string EmployeeName { get; set; }
-    public string DeparmentName { get; set; }
+    public string DepartmentName { get; set; }
 }

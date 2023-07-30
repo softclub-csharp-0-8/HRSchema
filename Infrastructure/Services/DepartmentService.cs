@@ -8,34 +8,35 @@ using System.Net;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Services;
+
 public class DepartmentService : IDepartmentService
 {
-    private readonly DataContext context;
-    private readonly IMapper mapper;
+    private readonly DataContext _context;
+    private readonly IMapper _mapper;
 
-    public DepartmentService(DataContext _context, IMapper _mapper)
+    public DepartmentService(DataContext context, IMapper mapper)
     {
-        context = _context;
-        mapper = _mapper;
+        _context = context;
+        _mapper = mapper;
     }
 
     public async Task<Response<AddDepartmentDto>> AddDepartment(AddDepartmentDto model)
     {
-
         try
         {
             var department = new Department()
             {
                 Id = model.Id,
-                DeparmentName = model.DeparmentName
+                DeparmentName = model.DepartmentName
             };
-            var result = await context.Departments.AddAsync(department);
-            await context.SaveChangesAsync();
+            var result = await _context.Departments.AddAsync(department);
+            await _context.SaveChangesAsync();
             return new Response<AddDepartmentDto>(model);
         }
         catch (System.Exception ex)
         {
-            return new Response<AddDepartmentDto>(HttpStatusCode.InternalServerError, new List<string>() { ex.Message });
+            return new Response<AddDepartmentDto>(HttpStatusCode.InternalServerError,
+                new List<string>() { ex.Message });
         }
     }
 
@@ -43,9 +44,9 @@ public class DepartmentService : IDepartmentService
     {
         try
         {
-            var find = await context.Departments.FindAsync(id);
-            context.Departments.Remove(find);
-            await context.SaveChangesAsync();
+            var find = await _context.Departments.FindAsync(id);
+            _context.Departments.Remove(find);
+            await _context.SaveChangesAsync();
             return new Response<string>("Success");
         }
         catch (System.Exception ex)
@@ -58,33 +59,36 @@ public class DepartmentService : IDepartmentService
     {
         try
         {
-            var result = context.Departments.Select(x => new GetDepartmentDto()
+            var result = await _context.Departments.Select(x => new GetDepartmentDto()
             {
                 Id = x.Id,
-                DeparmentName = x.DeparmentName
-            }).ToList();
+                DepartmentName = x.DeparmentName
+            }).ToListAsync();
             return new Response<List<GetDepartmentDto>>(result);
         }
         catch (Exception ex)
         {
-            return new Response<List<GetDepartmentDto>>(HttpStatusCode.InternalServerError, new List<string>() { ex.Message });
+            return new Response<List<GetDepartmentDto>>(HttpStatusCode.InternalServerError,
+                new List<string>() { ex.Message });
         }
     }
+
     public async Task<Response<GetDepartmentDto>> GetDepartmentById(int id)
     {
         try
         {
-            var find = await context.Departments.FindAsync(id);
+            var find = await _context.Departments.FindAsync(id);
             var result = new GetDepartmentDto()
             {
                 Id = find.Id,
-                DeparmentName = find.DeparmentName
+                DepartmentName = find.DeparmentName
             };
             return new Response<GetDepartmentDto>(result);
         }
         catch (Exception ex)
         {
-            return new Response<GetDepartmentDto>(HttpStatusCode.InternalServerError, new List<string>() { ex.Message });
+            return new Response<GetDepartmentDto>(HttpStatusCode.InternalServerError,
+                new List<string>() { ex.Message });
         }
     }
 
@@ -92,18 +96,17 @@ public class DepartmentService : IDepartmentService
     {
         try
         {
-            var find = await context.Departments.FindAsync(model.Id);
-            mapper.Map(model, find);
-            context.Entry(find).State = EntityState.Modified;
-            await context.SaveChangesAsync();
-            var response = mapper.Map<AddDepartmentDto>(find);
+            var find = await _context.Departments.FindAsync(model.Id);
+            _mapper.Map(model, find);
+            _context.Entry(find).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            var response = _mapper.Map<AddDepartmentDto>(find);
             return new Response<AddDepartmentDto>(response);
         }
         catch (Exception ex)
         {
-            return new Response<AddDepartmentDto>(HttpStatusCode.InternalServerError, new List<string>() { ex.Message });
+            return new Response<AddDepartmentDto>(HttpStatusCode.InternalServerError,
+                new List<string>() { ex.Message });
         }
     }
 }
-
-

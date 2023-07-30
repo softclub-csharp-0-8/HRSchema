@@ -1,0 +1,81 @@
+﻿@model Response<List<GetEmployeeDto>>
+<header>
+    <div class="general1">
+        <div class="main1">
+            <h1>     HR</h1>
+            <input type="search" placeholder="    Search">
+        </div>
+        <div >
+
+        </div>
+    </div>
+</header>
+<div class="general">
+    <div class="nav">
+        <nav>
+            <ul>
+                <li>Dashboard</li>
+                <li>Kanban</li>
+                <li>Inbox</li>
+                <li>E-commerce</li>
+                <li>Users</li>
+                <li>Pages</li>
+                <li>Authentication</li>
+            </ul>
+          
+        </nav>
+    </div>
+    <div class="main3">
+        <h1 style="font-size: 30px; font-weight: 500;">All Users</h1>
+        <div class="main4">
+            <div  class="ex1">
+                <input type="search" placeholder="    Search for Users">
+            </div>
+            <div class="ex2">
+                <button style="background-color: #1A56DB; width: 120px; border-radius: 5px; height: 50px; font-weight: 500;">+  Add  User</button>
+                <button style=" color: grey; margin-right: 30px; border-radius: 5px; border: 1px solid grey; width: 120px; height: 50px;">Export</button>
+            </div>
+        </div>
+        <div>
+          <table class="table">
+ <thead>
+    <tr style="color: ; background-color: #374151; height: 40px; border: 1px solid #374151;">
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">Hair Date</th>
+      @* <th scope="col">Email</th> *@
+      <th scope="col">Phone Number</th>
+      <th scope="col">Job</th>
+      @* <th scope="col">Manager</th> *@
+      <th scope="col">Salary</th>
+      <th scope="col">Department</th>
+      <th class="Edit" scope="col"></th>
+      <th  scope="col"></th>
+    </tr>
+  </thead>
+  @foreach (var employee in Model.Data)
+  {
+     <tr class="text">
+    <td>@employee.Id</td>
+    <td>
+      <div style="">
+        <p>@employee.FullName</p>
+        @* <p> @employee.LastName</p> *@
+      </div>
+      <p style="color: grey;">@employee.Email</p>
+    </td>
+    <td>@employee.HireDate</td>
+    @* <td>@employee.Email</td> *@
+    <td>@employee.PhoneNumber</td>
+    <td>@employee.JobName</td>
+    <td>@employee.Salary</td>
+    <td>@employee.DeparmentName</td>
+    <td><button style="background-color: #1A56DB; color: white; height: 40px; width: 120px; border-radius: 5px; font-weight: 500;">Edit User</button></td>
+    <td><button style="background-color: #f61818; color: white; height: 40px; width: 120px; border-radius: 5px; font-weight: 500;">Delete User</button></td>
+  </tr>
+  }
+ 
+</table>
+</div>
+</div>
+</div>

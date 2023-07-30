@@ -1,6 +1,39 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url('https://fonts.googleapis.com/css?family=Karla:400,700&display=swap');
+
+.font-family-karla {
+  font-family: karla;
+}
+
+.bg-sidebar {
+  background: #3d68ff;
+}
+
+.cta-btn {
+  color: #3d68ff;
+}
+
+.upgrade-btn {
+  background: #1947ee;
+}
+
+.upgrade-btn:hover {
+  background: #0038fd;
+}
+
+.active-nav-link {
+  background: #1947ee;
+}
+
+.nav-item:hover {
+  background: #1947ee;
+}
+
+.account-link:hover {
+  background: #3d68ff;
+}
 
 html {
   font-size: 14px;
@@ -12,7 +45,11 @@ html {
   }
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+.btn:focus,
+.btn:active:focus,
+.btn-link.nav-link:focus,
+.form-control:focus,
+.form-check-input:focus {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
@@ -23,4 +60,98 @@ html {
 
 body {
   margin-bottom: 60px;
+}
+.nav {
+  background-color: rgb(31, 41, 55);
+  line-height: 60px;
+  width: 15%;
+  position: fixed;
+  color:#E5E7Eb ;
+  height: 100vh;
+  padding-left: 30px;
+  font-size: 25px;
+  font-weight:500;
+  border-right: 1px solid grey;
+  margin-top: 50px;
+}
+.general1{
+  display: flex;
+  background-color: rgb(31, 41, 55);
+  color: white;
+  border-bottom:1px solid grey;
+  height: 50PX;
+  width: 100%;
+  position: fixed;
+}
+.main1{
+  display: flex;
+  gap: 40px;
+}
+.main1 h1{
+  margin-left: 7%;
+  font-size: 30px;
+}
+.main1 input{
+  margin-left: 50px;
+  margin-top: 5px;
+  background-color: #374151;
+  color: color;
+  /* border: 1px solid gray; */
+  border-radius: 5px;
+  height: 40px;
+  width: 390px;
+}
+.main3{
+  background-color: rgb(31, 41, 55);
+  width: 94.9%;
+  height: 150vh;
+  margin-left: 15%
+}
+.main3 { 
+  /* margin-top:; */
+  padding-top: 60px;
+  color: white;
+  margin-left:15%;
+  padding-left: 2%;
+}
+.general{
+  /* display: flex; */
+}
+.main4{
+  margin-top: 20px;
+  justify-content: space-between;
+  display: flex;
+}
+.ex1 input{
+ 
+  margin-top: 5px;
+  background-color: #374151;
+  color: color;
+  /* border: 1px solid gray; */
+  border-radius: 5px;
+  height: 50px;
+  width: 390px;
+}
+.ex2{
+  gap: 20px;
+  display: flex;
+}
+.table{
+  margin-top: 20px;
+  width: 100%;
+  /* margin-right: 20px; */
+}
+.text{
+  height:70px;
+  text-align: center;
+  /* border: 1px solid gray; */
+  border-left: 1px solid gray;
+  border-bottom: 1px solid gray;
+}
+td
+{
+  /* border: 1px solid gray; */
+}
+.Edit{
+  /* width: 100%; */
 }

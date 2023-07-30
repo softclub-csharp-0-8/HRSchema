@@ -1,5 +1,6 @@
 using Domain.Dtos.JobHistoryDto;
 using Domain.Wrapper;
+
 namespace Infrastructure.Services;
 
 public interface IJobHistoryService
