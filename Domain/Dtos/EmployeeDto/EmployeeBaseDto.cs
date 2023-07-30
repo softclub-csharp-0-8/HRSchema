@@ -9,5 +9,6 @@ public class EmployeeBaseDto
     public int DeparmentId { get; set; }
     public int  JobId { get; set; }
     public DateTime HireDate { get; set; }
+   // public Status Status { get; set; }
     public int ManagerId { get; set; }
 }

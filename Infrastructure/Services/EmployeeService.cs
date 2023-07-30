@@ -1,9 +1,12 @@
 using System.Net;
 using AutoMapper;
+using Domain.Dtos;
 using Domain.Dtos.EmployeeDto;
 using Domain.Entities;
 using Domain.Wrapper;
 using Infrastructure.Context;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Services;
@@ -12,11 +15,15 @@ public class EmployeeService : IEmployeeService
 {
     private readonly DataContext _context;
     private readonly IMapper _mapper;
+    private bool e;
+    private readonly IWebHostEnvironment _webHostEnvironment;
+    public EmployeeService(DataContext context, IMapper mapper,IWebHostEnvironment webHostEnvironment)
 
     public EmployeeService(DataContext context, IMapper mapper)
     {
         _context = context;
         _mapper = mapper;
+        _webHostEnvironment = webHostEnvironment;
     }
 
     public async Task<Response<List<GetEmployeeDto>>> GetEmployee()
@@ -73,11 +80,27 @@ public class EmployeeService : IEmployeeService
             return new Response<GetEmployeeDto>(HttpStatusCode.InternalServerError, new List<string>() { ex.Message });
         }
     }
+    public string AddFile(IFormFile file,string folderName)
+    {
+        if (file != null)
+        {
+            var fileName = Guid.NewGuid() + "_" + Path.GetFileName(file.FileName);
+            var path = Path.Combine(_webHostEnvironment.WebRootPath, folderName, fileName);
+            using (var stream = new FileStream(path, FileMode.Create))
+            {
+                file.CopyTo(stream);
+            }
+
+            return fileName;
+        }
+        return null;
+    }
 
     public async Task<Response<AddEmployeeDto>> AddEmployee(AddEmployeeDto model)
     {
         try
         {
+            
             model.HireDate = DateTime.SpecifyKind(model.HireDate, DateTimeKind.Utc);
             var employee = new Employee()
             {
@@ -89,7 +112,8 @@ public class EmployeeService : IEmployeeService
                 PhoneNumber = model.PhoneNumber,
                 JobId = model.JobId,
                 DepartmentId = model.DeparmentId,
-                Salary = model.Salary
+                Salary = model.Salary,
+                Image = AddFile(model.Image,FolderTypes.ImageFolder)??"Image"
             };
             var result = await _context.Employees.AddAsync(employee);
             await _context.SaveChangesAsync();

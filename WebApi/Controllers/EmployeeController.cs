@@ -1,11 +1,11 @@
 using Domain.Dtos.EmployeeDto;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Mvc;
-
 namespace WebApi.Controllers;
 
 [ApiController]
 [Route("[controller]")]
+
 public class EmployeeController : ControllerBase
 {
     private readonly IEmployeeService _employeeService;
@@ -13,6 +13,7 @@ public class EmployeeController : ControllerBase
     public EmployeeController(IEmployeeService employeeService)
     {
         _employeeService = employeeService;
+
     }
 
     [HttpGet("Get")]
@@ -35,9 +36,10 @@ public class EmployeeController : ControllerBase
         var result = await _employeeService.GetEmployeeById(id);
         return StatusCode((int)result.StatusCode, result);
     }
+    
 
     [HttpPost("Add")]
-    public async Task<IActionResult> AddEmplooyee(AddEmployeeDto model)
+    public async Task<IActionResult> AddEmplooyee([FromForm]AddEmployeeDto model)
     {
         var result = await _employeeService.AddEmployee(model);
         return StatusCode((int)result.StatusCode, result);

@@ -64,6 +64,9 @@ namespace Infrastructure.Migrations
                     b.Property<DateTime>("HireDate")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<string>("Image")
+                        .HasColumnType("text");
+
                     b.Property<int>("JobId")
                         .HasColumnType("integer");
 
