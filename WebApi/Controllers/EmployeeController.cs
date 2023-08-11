@@ -48,5 +48,11 @@ public class EmployeeController : ControllerBase
     {
         var result = await _employeeService.DeleteEmployee(id);
         return StatusCode((int)result.StatusCode, result);
-    }
+    } 
+    // [HttpPost("RegisterEmployee")]
+    // public async Task<IActionResult> RegisterEmployee(RegisterEmployeeDto model)
+    // {
+    //     var result = await _employeeService.RegisterEmployee(model);
+    //     return StatusCode((int)result.StatusCode, result); 
+    // }
 }

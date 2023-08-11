@@ -10,4 +10,5 @@ public interface IEmployeeService
     Task<Response<AddEmployeeDto>> AddEmployee(AddEmployeeDto model);
     Task<Response<AddEmployeeDto>> UpdateEmployee(AddEmployeeDto model);
     Task<Response<string>> DeleteEmployee(int id);
+    // Task<Response<RegisterEmployeeDto>> RegisterEmployee(RegisterEmployeeDto employee);
 }

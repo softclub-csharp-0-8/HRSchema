@@ -1,5 +1,4 @@
 using System.Text;
-using Domain.Dtos.UserDto;
 using Infrastructure.AutoMapperProfiles;
 using Infrastructure.Context;
 using Infrastructure.Services;
@@ -11,17 +10,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 
 var connection = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<DataContext>(conf => conf.UseNpgsql(connection));
 
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 builder.Services.AddScoped<IJobService, JobService>();
 builder.Services.AddScoped<IDepartmentService, DepartmentService>();
@@ -39,7 +33,7 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(config =>
         config.Password.RequireUppercase = false; // must have at least one uppercase character
         config.Password.RequireLowercase = false; // must have at least one lowercase character
     })
-    //for registering usermanager and signinmanger
+    //for registering UserManager and SignInManger
     .AddEntityFrameworkStores<DataContext>()
     .AddDefaultTokenProviders();
 
@@ -63,6 +57,8 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
@@ -76,7 +72,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
-
+app.UseAuthentication();
 app.MapControllers();
 
 app.Run();

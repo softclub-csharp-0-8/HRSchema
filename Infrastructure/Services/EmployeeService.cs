@@ -4,6 +4,7 @@ using Domain.Dtos.EmployeeDto;
 using Domain.Entities;
 using Domain.Wrapper;
 using Infrastructure.Context;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Services;
@@ -100,7 +101,20 @@ public class EmployeeService : IEmployeeService
             return new Response<AddEmployeeDto>(HttpStatusCode.InternalServerError, new List<string>() { ex.Message });
         }
     }
-
+    public async Task<Response<RegisterEmployeeDto>> RegisterEmployee(RegisterEmployeeDto employee)
+    {
+        try
+        {
+            var employees = _mapper.Map<Employee>(employee);
+            await _context.Employees.AddAsync(employees);
+            await _context.SaveChangesAsync();
+            return new Response<RegisterEmployeeDto>(employee); 
+        }
+        catch (Exception e)
+        {
+            return new Response<RegisterEmployeeDto>(HttpStatusCode.InternalServerError, new List<string>() { e.Message });
+        }
+    }
     public async Task<Response<string>> DeleteEmployee(int id)
     {
         try

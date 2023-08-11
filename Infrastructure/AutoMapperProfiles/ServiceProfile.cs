@@ -22,7 +22,6 @@ public class ServiceProfile : Profile
         CreateMap<Department, AddDepartmentDto>().ReverseMap();
         CreateMap<JobHistory, AddJobHistoryDto>().ReverseMap();
         CreateMap<IdentityRole, RoleDto>();
-        CreateMap<IdentityUser, GetUserDto>().ReverseMap();
-        CreateMap<IdentityUser, UserBaseDto>();
+        CreateMap<IdentityUser, RegisterEmployeeDto>().ReverseMap();    
     }
 }

@@ -1,9 +1,9 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace Domain.Dtos.AuthenticationAuthorizationDto;
+namespace Domain.Dtos.EmployeeDto;
 
-public class RegisterDto
+public class RegisterEmployeeDto
 {
     [Required] 
     public string? UserName { get; set; }

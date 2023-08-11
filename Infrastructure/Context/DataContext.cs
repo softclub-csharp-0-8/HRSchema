@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Context;
 
-public class DataContext : IdentityDbContext<IdentityUser> 
+public class DataContext : IdentityDbContext
 {
     public DataContext(DbContextOptions<DataContext> options) : base(options)
     {
@@ -14,7 +14,7 @@ public class DataContext : IdentityDbContext<IdentityUser>
 
     public DbSet<Employee> Employees { get; set; }
     public DbSet<Department> Departments { get; set; }
-    public DbSet<Job> Jobs { get; set; }
+    public DbSet<Job> Jobs { get; set; } 
     public DbSet<JobHistory> JobHistories { get; set; }
 
 

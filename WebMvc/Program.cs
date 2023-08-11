@@ -7,10 +7,13 @@ using Infrastructure.Services.Role;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var connection = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<DataContext>(conf => conf.UseNpgsql(connection));
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
@@ -20,6 +23,7 @@ builder.Services.AddScoped<IJobHistoryService, JobHistoryService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IRoleService, RoleService>(); 
 
+builder.Services.AddAutoMapper(typeof(ServiceProfile));
 //jwt config
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(config =>
     {
@@ -36,9 +40,9 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(config =>
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,option =>
     {
-        option.LoginPath = "/account/login";
-        option.AccessDeniedPath = "/account/No";
-        option.Cookie.Name = "AuthCookie";
+        option.LoginPath = "/account/Login";
+        option.AccessDeniedPath = "/account/AccessDenied"; 
+        option.Cookie.Name = "AuthCookie"; 
 
     });
 
@@ -67,7 +71,7 @@ app.UseEndpoints(endpoints =>
         pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
     endpoints.MapControllerRoute(
         name: "default",
-        pattern: "{controller=Home}/{action=Index}/{id?}");
+        pattern: "{controller=Account}/{action=Login}/{id?}");
 });
 
 app.Run();

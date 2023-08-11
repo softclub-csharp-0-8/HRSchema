@@ -1,4 +1,5 @@
 using Domain.Dtos.AuthenticationAuthorizationDto;
+using Domain.Dtos.EmployeeDto;
 using Domain.Wrapper;
 using Infrastructure.Services.Account;
 using Microsoft.AspNetCore.Identity;
@@ -16,15 +17,4 @@ public class AccountController:ControllerBase
         _accountService = accountService;
     }
 
-    [HttpPost("Register")]
-    public async Task<Response<IdentityResult>> Register(RegisterDto model)
-    {
-        return await _accountService.Register(model); 
-    }
-
-    [HttpPost("Login")]
-    public async Task<Response<TokenDto>> Login(LoginDto model)
-    {
-        return await _accountService.Login(model); 
-    }
 }
